@@ -21,7 +21,10 @@
 5. the landing page is located at localhost/login
 - login page http://localhost/login
 
+# Live Demo
+[![Live Demo](https://img.youtube.com/vi/AiDIyQP5IU8/0.jpg)](https://www.youtube.com/watch?v=AiDIyQP5IU8)
 
+# Pages
 
 [![Image from Gyazo](https://i.gyazo.com/9ec347dfc0221f5219a89156d17f6d53.png)](https://gyazo.com/9ec347dfc0221f5219a89156d17f6d53)
 [![Image from Gyazo](https://i.gyazo.com/d0c8001de4901e863aef7617aa65017d.png)](https://gyazo.com/d0c8001de4901e863aef7617aa65017d)
