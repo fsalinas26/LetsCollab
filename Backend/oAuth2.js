@@ -55,9 +55,9 @@ async function getUserInfo() {
 }
 
 async function createUserFromOAuth2(googleProfile){
-    return new Promise((resolve)=>{
+    return new Promise(async(resolve)=>{
         let email = googleProfile.email;
-        let userObject = users.getItem(email);
+        let userObject = await users.getItem(email);
         if(userObject==null){
             let newUserObj = {};
             newUserObj["FirstName"] = googleProfile.name.split(' ')[0]
@@ -70,7 +70,7 @@ async function createUserFromOAuth2(googleProfile){
             newUserObj["Skills"] = [];
             newUserObj["ProjectsCreated"] = [];
             newUserObj["ProjectsInterested"] = [];
-            users.setItem(email,newUserObj);
+            await users.setItem(email,newUserObj);
             let newUser = users.getItem(email);
             if(newUser!=null){
                 out_obj = {...newUser};
