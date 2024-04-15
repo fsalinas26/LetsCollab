@@ -4,12 +4,13 @@ module.exports = {
     method:'GET',
     execute(params){
         let out_obj = {};
-        return new Promise(resolve=>{
-            let projectObject = projects.getItem(params.id);    
-            if(projectObject == null){
+        return new Promise(async(resolve) => {
+            let projectID = params.id;
+            let interestedUsers = await projects.getInterestedUsers(projectID);    
+            if(interestedUsers == null){
                 out_obj["response"] = "Project does not exist";
             }else{
-                out_obj["InterestedUsers"] = projectObject["Interested Users"];
+                out_obj["InterestedUsers"] = interestedUsers;
                 out_obj["response"] = "Successfully fetched interested users";    
             }
             resolve(out_obj);            

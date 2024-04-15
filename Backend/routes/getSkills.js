@@ -4,8 +4,8 @@ module.exports = {
     method: "GET",
     execute(params) {
         let outObj = {};
-        return new Promise(resolve => {
-            outObj = skills.getData();
+        return new Promise(async(resolve) => {
+            outObj = await skills.getData();
             outObj["response"] = "Retrieved skills";
             resolve(outObj);
         })

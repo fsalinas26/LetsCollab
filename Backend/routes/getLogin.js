@@ -4,11 +4,11 @@ module.exports = {
     name: "getLogin",
     method:'GET',
     execute(params,req){
-        return new Promise((resolve,reject)=>{
+        return new Promise(async(resolve,reject)=>{
             let out_obj = {};
             let email = params.email;
             let password = params.password;
-            let userObject = users.getItem(email);
+            let userObject = await users.getItem(email);
             if(userObject != null){
                 if(userObject.Password === password){
                     //const { ["Password"]: _, ...new_obj } = userObject;

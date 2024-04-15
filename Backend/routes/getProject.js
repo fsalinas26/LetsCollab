@@ -4,8 +4,8 @@ module.exports = {
     method:'GET',
     execute(params){
         let out_obj = {};
-        return new Promise(resolve=>{
-            let projectObject = projects.getItem(params.id);    
+        return new Promise(async (resolve)=>{
+            let projectObject = await projects.getItem(params.id);    
             if(projectObject == null){
                 out_obj["response"] = "Project does not exist";
             }else{

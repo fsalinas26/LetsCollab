@@ -4,13 +4,13 @@ module.exports = {
     method:'GET',
     execute(params,req){
         let out_obj = {};
-        return new Promise(resolve=>{
+        return new Promise(async(resolve)=>{
             let userid = req.session.Email;
             if(userid==null){
                 out_obj["response"] = "User has no session token!";
                 resolve(out_obj);
             }
-            let userObject = users.getItem(userid);
+            let userObject = await users.getItem(userid);
             if(userObject != null){
                 const { ["Password"]: _, ...new_obj } = userObject;
                 out_obj = new_obj;

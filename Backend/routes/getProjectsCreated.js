@@ -4,11 +4,11 @@ module.exports = {
     method:'GET',
     execute(params,req){
         let out_obj = {};
-        return new Promise(resolve=>{
+        return new Promise(async(resolve) => {
             let id = req.session.Email || params.id;
-            let userObject = users.getItem(id);
-            if(userObject != null){
-                out_obj["ProjectsCreated"] = userObject["ProjectsCreated"];
+            let projectsCreated = await users.getProjectsCreated(id);
+            if(projectsCreated != null){
+                out_obj["ProjectsCreated"] = projectsCreated;
                 out_obj["response"] = "Got Projects Created";
             }else{
                 out_obj["response"] = "User does not exists";

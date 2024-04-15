@@ -4,18 +4,18 @@ module.exports = {
     method:'POST',
     execute(body){
         let out_obj = {};
-        return new Promise(resolve=>{
+        return new Promise(async (resolve)=>{
             let email = body.Email;
             let updatedUser = body;
-            let userObject = users.getItem(email);
+            let userObject = await users.getItem(email);
             if(userObject !=null){
                 for (let key in updatedUser) {
                     if (updatedUser.hasOwnProperty(key)) {
                         userObject[key] = updatedUser[key];
                     }
                 }
-                users.setItem(email,userObject);
-                let userObj = users.getItem(email);
+                await users.setItem(email,userObject);
+                let userObj = await  users.getItem(email);
                 out_obj = {...userObj};
                 out_obj["response"]= "Updated user!";
             }else{

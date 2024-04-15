@@ -1,37 +1,35 @@
-const fs = require("fs").promises;
+const {LetsCollabStudentsAPI} = require('./mysql')
 const yaml = require('yaml-config')
 const config = yaml.readConfig("./config/config.yml",'default');
-
 let filePath = config.debug ? "./studentprofilestest.json" : './studentprofiles.json';
-console.log(`Using ${filePath} for student profiles because debug is ${config.debug}`);
-let data = {};
-fs.readFile(filePath)
-  .then((contents) => {
-    if (contents) {
-      data = JSON.parse(contents);
-      fs.writeFile(filePath, JSON.stringify(data,null,4));
-    }
-  })
-  .catch((err) => {
-    if (err.code === "ENOENT") {
-      fs.writeFile(filePath, JSON.stringify({}));
-    }
-  });
 
+const API = new LetsCollabStudentsAPI();
 module.exports = {
-  getKeys: ()=>{
-    return Object.keys(data);
-  },
-  getData: ()=>{
-    let allData = data;
+  getData: async()=>{
+    let allData = await API.getData();
     return allData;
   },
-  getItem: (key) => {
-    let dataItem = data[key] || null;
+  getItem: async(key) => {
+    let dataItem = await API.getItem(key);
     return dataItem;
   },
-  setItem: (key, value) => {
-    data[key] = value;
-    fs.writeFile(filePath, JSON.stringify(data,null,4));
+  addProjectInterest: async(email, projectID)=>{
+    let res = await API.addProjectInterest(email, projectID);
+    return res;
+  },
+  removeProjectInterest:async(email, projectID)=> {
+    let res =await API.removeProjectInterest(email, projectID);
+    return res;
+  },
+  getProjectsCreated:async(email)=>{
+    let res = await API.getProjectsCreated(email);
+    return res;
+  },
+  getInterestedProjects:async(email)=>{
+    let res = await API.getInterestedProjects(email);
+    return res;
+  },
+  setItem: async(key, value) => {
+    await API.setItem(key, value);
   },
 };
