@@ -4,14 +4,14 @@ module.exports = {
     method:'POST',
     execute(body){
         let out_obj = {};
-        return new Promise(resolve=>{
+        return new Promise(async(resolve) => {
             let email = body.Email;
-            let data = users.getData();
+            let data = await users.getData();
             if(data[email]==null){
                 body["ProjectsCreated"] = [];
                 body["ProjectsInterested"] = [];
-                users.setItem(email,body);
-                let userObject = users.getItem(email);
+                await users.setItem(email,body);
+                let userObject = await users.getItem(email);
                 if(userObject!=null){
                     out_obj = userObject;
                     out_obj["response"]= "Created user!";

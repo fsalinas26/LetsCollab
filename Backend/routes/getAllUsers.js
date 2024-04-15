@@ -4,8 +4,8 @@ module.exports = {
     method:'GET',
     execute(body){
         let out_obj = {};
-        return new Promise(resolve=>{
-            let userobj = users.getData();
+        return new Promise(async(resolve) => {
+            let userobj = await users.getData();
             if(userobj!=null){
                 let newobj = {...userobj};
                 out_obj = Object.entries(newobj).reduce((parentObject, [key, value]) => {

@@ -8,9 +8,7 @@ app.use(cors());
 app.use(express.json({limit:'50mb'}));
 app.use(express.urlencoded({ extended: true }));
 const oAuth2 = require("./oAuth2");
-
-
-
+const log = require('./utils/logs');
 app.use(session({
     secret: 'your_secret_key',
     resave: false,
@@ -31,7 +29,7 @@ function ImportCommands() {
     for (const file of commandFiles) {
         const command = require(`./routes/${file}`);
         Commands.set(command.name, command);
-        console.log(`Imported ${file}...`)
+        log.info(`Imported ${file}...`)
     }
 }
 
@@ -65,7 +63,6 @@ app.post('/v1/:post',async(req,res)=>{
     const command = Commands.get(req.params.post);
     let resObj = await command.execute(req.body,req);
     let response = resObj["response"];
-    console.log(`response is ${response}`);
     const { ["response"]: _, ...out_obj } = resObj;
     res.status(200).send({
         "data":out_obj,
@@ -104,6 +101,6 @@ app.get('/auth/google/logout',(req,res)=>{
 });
 
 app.listen(port,()=>{
-    
-    console.log(`Now listening on port ${port}`);
+    log.green(`Now listening on port ${port}`);
+    //log(`Now listening on port ${port}`);
 });

@@ -19,10 +19,10 @@ Content-Type: application/json
 GET http://127.0.0.1:8080/v1/getLogin?email=mark.brown@scu.edu&password=mb12345 HTTP/1.1
 
 ### GET
-GET http://127.0.0.1:8080/v1/getInterestedUsers?id=P1002
+GET http://127.0.0.1:80/v1/getInterestedUsers?id=cf93a714-f976-46bd-91af-13915d545982
 
 ### GET
-GET http://127.0.0.1:8080/v1/getInterestedProjects
+GET http://127.0.0.1:80/v1/getInterestedProjects?id=fsalinas@scu.edu
 
 ###
 
@@ -45,7 +45,7 @@ Content-Type: application/json
 }
 
 ### GET
-GET http://127.0.0.1:8080/v1/getProjectsCreated?id=alice.smith@scu.edu
+GET http://127.0.0.1:80/v1/getProjectsCreated?id=fsalinas@scu.edu
 
 ### GET
 GET http://127.0.0.1:8080/v1/getSkills

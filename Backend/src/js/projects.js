@@ -18,7 +18,18 @@ let currentTab = 0;
 const projArray = [];
 let userInfo;
 let userSkills;
-
+async function setResponse(text, color){
+    await delay(250);
+    $('#manageResponse').removeClass("loader");
+    $('#manageResponse').html(`${text}`).css("color",color);
+    setTimeout(()=>{
+        $("#manageResponse").html("");
+    },1500)
+}
+function setLoadingResponse(){
+    $('#manageResponse').html("");
+    $('#manageResponse').addClass("loader");
+}
 /**
  * asynchronous function on page load
  */
@@ -455,46 +466,52 @@ async function showInterest (button, projObj)
     await API.setProjectInterest(projObj.ID, !isSelected).then(response => {
 
         /** at the time of pressing button, if it's selected */
-        if (!isSelected)
-        {
-            button.innerHTML = "I'm Interested!";
+        if(response.status){
 
-            /** (statically) add user to project `interested users` array */
-            projObj["Interested Users"].push(userInfo["Email"]);
-        }
-        else
-        {
-            button.innerHTML = "Show Interest";
+            if (!isSelected)
+            {
+                button.innerHTML = "I'm Interested!";
 
-            /** (statically) remove user from project's `interested users` array */
-            let index = projObj["Interested Users"].indexOf(userInfo["Email"]);
-            if (index != -1)
-                projObj["Interested Users"].splice(index, 1);
-            if(currentTab==1){
-                const projects = document.getElementsByClassName("projectlist");
-                for (project of projects)
-                {
-                    let projID = project.getAttribute("ID").substring(1);
-                    if(projID == projObj.ID){
-                        hideElement(project);
-                        continue;
+                /** (statically) add user to project `interested users` array */
+                projObj["Interested Users"].push(userInfo["Email"]);
+            }
+            else
+            {
+                button.innerHTML = "Show Interest";
+
+                /** (statically) remove user from project's `interested users` array */
+                let index = projObj["Interested Users"].indexOf(userInfo["Email"]);
+                if (index != -1)
+                    projObj["Interested Users"].splice(index, 1);
+                if(currentTab==1){
+                    const projects = document.getElementsByClassName("projectlist");
+                    for (project of projects)
+                    {
+                        let projID = project.getAttribute("ID").substring(1);
+                        if(projID == projObj.ID){
+                            hideElement(project);
+                            continue;
+                        }
                     }
                 }
             }
+
+            /** update button */
+            button.classList.toggle("selected");
+
+            /** update interest text */
+            let num = projObj["Interested Users"].length;
+            people1.innerHTML = num;
+            if (num == 1)
+                people3.innerHTML = "student is interested";
+            else
+                people3.innerHTML = "students are interested";
+        }else{
+            button.classList.toggle("incorrect");
         }
 
-        /** update button */
-        button.classList.toggle("selected");
-
-        /** update interest text */
-        let num = projObj["Interested Users"].length;
-        people1.innerHTML = num;
-        if (num == 1)
-            people3.innerHTML = "student is interested";
-        else
-            people3.innerHTML = "students are interested";
-
     }).catch(err => {
+        button.toggle("incorrect");
         console.error("error marking interest in project: " + err);
     })
 

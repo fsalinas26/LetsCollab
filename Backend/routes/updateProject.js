@@ -6,12 +6,11 @@ module.exports = {
     method:'POST',
     execute(body,req){
         let out_obj = {};
-        return new Promise(resolve=>{
-            console.log("Upadting project with ID: ",body.ID)
+        return new Promise(async(resolve)=>{
             try{
             let project_id = body.ID;
             let updatedProject = body;
-            let projectObject = projects.getItem(project_id);
+            let projectObject = await projects.getItem(project_id);
             if(projectObject!=null){
                 if(projectObject.AuthorEmail === req.session.Email){
                     for (let key in updatedProject) {
@@ -19,8 +18,8 @@ module.exports = {
                             projectObject[key] = updatedProject[key];
                         }
                     }
-                    projects.setItem(project_id,projectObject);
-                    let projObj = projects.getItem(project_id);
+                    await projects.setItem(project_id,projectObject);
+                    let projObj = await projects.getItem(project_id);
                     out_obj = {...projObj};
                     console.log("Project has been updated!")
                     out_obj["response"]="Project has been updated!"
